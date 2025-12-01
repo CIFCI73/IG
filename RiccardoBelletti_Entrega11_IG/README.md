@@ -37,6 +37,43 @@ var lista_cajas = [
 ```
 Luego, con un bucle for, recorro esta lista y llamo a crearCajas().
 
+## La Lógica de Animación
+La animación es una cadena de eventos para cada caja. Dentro de la función `animar()`, recorro mi lista de tareas y para cada una genero 6 tweens diferentes:
+1.  **Viaje (Ir):** Mover el puente y el carro hacia la caja.
+2.  **Bajar:** El gancho desciende hasta la altura de carga (-4.5).
+3.  **Subir:** El gancho sube con la carga.
+4.  **Transporte:** Llevar la caja a su destino final.
+5.  **Descargar:** Bajar de nuevo.
+6.  **Recuperar:** Subir el gancho vacío.
+
+Para que esto se sienta real, he jugado bastante con las funciones de **Easing** (suavizado). Por ejemplo, para el movimiento de la grúa uso `Quadratic.InOut`, que hace que acelere al arrancar y frene suavemente al llegar, simulando la inercia de una máquina pesada de varias toneladas:
+```javascript
+var ir_puente = new TWEEN.Tween(puente.position)
+  .to({ z: tarea.start.z }, 1500)
+  .easing(TWEEN.Easing.Quadratic.InOut);
+```
+En cambio, para bajar el gancho uso Cubic.Out, que es más rápido al principio y frena mucho al final, para simular que el operario tiene cuidado de no golpear la carga contra el suelo.
+```javascript
+var bajar = new TWEEN.Tween(gancho.position)
+      .to({ y: -5.3 }, 1000)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .onComplete(function () {
+        console.log("Caja cogida: " + index);
+        agarre = true;
+        cajaActual = tarea.mesh;
+        cajaActual.material.emissive.setHex(0x333333);
+      });
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
