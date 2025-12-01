@@ -64,14 +64,26 @@ var bajar = new TWEEN.Tween(gancho.position)
         cajaActual.material.emissive.setHex(0x333333);
       });
 ```
+Para que el movimiento del Puente (Eje Z) y el Carro (Eje X) empezaran exactamente al mismo tiempo, simplemente usé la función .onStart() en el primer tween para disparar el segundo:
+```javascript
+ir_puente.onStart(function() { ir_carro.start(); });
+```
+Finalmente, para que la grúa no intente mover todas las cajas a la vez, creé una variable llamada ultimoTween. Esta variable guarda la última animación del ciclo actual (subir el gancho vacío). Cuando el bucle pasa a la siguiente caja, le digo a esa última animación que active la primera de la nueva caja. De esta forma, se crea una cadena de animaciones generada automáticamente, sin importar cuántas cajas haya en la lista.
 
+Implementé una lógica en el bucle de renderizado `animationLoop`para simular fisica. Uso una variable simple `agarre` (true/false).
+El truco está en cómo muevo la caja. Si la caja fuera "hija" del gancho, al moverla las coordenadas cambiarían de forma rara por la jerarquía. Lo que hago es preguntar a Three.js la posición exacta del gancho en el mundo real usando `getWorldPosition()` y copio esos números a la caja:
 
-
-
-
-
-
-
+```javascript
+if (agarre && cajaActual) {
+  var pos = new THREE.Vector3();
+  gancho.getWorldPosition(pos); // Obtiene la posición global real
+  
+  cajaActual.position.x = pos.x;
+  cajaActual.position.z = pos.z;
+  cajaActual.position.y = pos.y - 1; // Un poco más abajo visualmente
+}
+```
+Así consigo un agarre que parece magnético, sin que la caja se mueva durante el transporte.
 
 
 
