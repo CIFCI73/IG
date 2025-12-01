@@ -1,6 +1,6 @@
 ## Introducción
 
-Buenos dias Profesor soy Riccardo Belletti y para esta práctica he decidido crear una simulación de una grúa pórtico industrial que organiza contenedores de colores de forma autónoma. He elegido este tema porque quería experimentar con el concepto de **jerarquía de objetos** (Scene Graph) y ver cómo coordinar movimientos complejos.
+Buenos dias Profesor soy Riccardo Belletti y para esta práctica ([enlace al proyecto en CodeSandbox](https://codesandbox.io/p/sandbox/ig2526-s10-forked-7r7thg)) he decidido crear una simulación de una grúa pórtico industrial que organiza contenedores de colores de forma autónoma. He elegido este tema porque quería experimentar con el concepto de **jerarquía de objetos** (Scene Graph) y ver cómo coordinar movimientos complejos.
 
 ## Construcción de la Escena: La Jerarquía
 La idea es que cada parte de la grúa es "hija" de la anterior. Así, si muevo la parte grande, las pequeñas le siguen automáticamente. Lo he organizado así en la función `construirGrua()`:
